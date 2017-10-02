@@ -1,11 +1,12 @@
 ﻿@model MsSQLAdmin.Models.TableViewModel
-<div class="table-responsive">
+
+<div class="table-responsive" id="data">
     <table class="table table-striped">
         <thead>
             <tr>
                 @foreach (var column in Model.TableColumns) {
                     <th>
-                        @Html.DisplayFor(model => column.Name)
+                        @Html.Raw(column.Name)
                     </th>
                 }
             </tr>
@@ -16,7 +17,7 @@
                     <tr>
                         @foreach (var column in Model.TableColumns) {
                             <td>
-                                @Html.DisplayFor(modelItem => row[column.Name])
+                                @Html.Raw(row[column.Name])
                             </td>
                         }
                     </tr>

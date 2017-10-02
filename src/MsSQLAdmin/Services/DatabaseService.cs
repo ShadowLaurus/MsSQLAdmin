@@ -105,5 +105,33 @@ WHERE c.object_id = OBJECT_ID(@tablename)";
 
             return models;
         }
+
+        public async Task<IEnumerable<IDictionary<string, object>>> GetDataAsync(string connectionString, string sql) {
+            List<Dictionary<string, object>> models = new List<Dictionary<string, object>>();
+
+            using (var connection = new SqlConnection(connectionString)) {
+                await connection.OpenAsync();
+
+                using (var command = connection.CreateCommand()) {
+                    command.CommandType = System.Data.CommandType.Text;
+                    command.CommandText = sql;
+
+                    using (var reader = await command.ExecuteReaderAsync()) {
+                        var columns = Enumerable.Range(0, reader.FieldCount).Select(reader.GetName).ToList();
+
+                        while (await reader.ReadAsync()) {
+                            models.Add(new Dictionary<string, object>());
+
+                            foreach (var column in columns) {
+                                int order = reader.GetOrdinal(column);
+                                models.Last().Add(column, reader.GetValue(order));
+                            }
+                        }
+                    }
+                }
+            }
+
+            return models;
+        }
     }
 }

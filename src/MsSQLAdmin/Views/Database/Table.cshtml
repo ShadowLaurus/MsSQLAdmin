@@ -3,7 +3,8 @@
     ViewData["Title"] = "Table";
 }
 <h2>Table</h2>
-<div>    <!-- Nav tabs -->
+<div>
+    <!-- Nav tabs -->
     <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active"><a href="#Structure" aria-controls="Structure" role="tab" data-toggle="tab">Structure</a></li>
         <li role="presentation"><a href="#Data" aria-controls="Data" role="tab" data-toggle="tab">Data</a></li>
@@ -14,7 +15,35 @@
             @await Html.PartialAsync("_Structure", Model.TableColumns)
         </div>
         <div role="tabpanel" class="tab-pane" id="Data">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h2>SQL : </h2>
+                    <textarea id="sql" style="height: 100%; width: 100%;">
+                        @if (!string.IsNullOrWhiteSpace(ViewBag.SqlSelect)){ 
+                            @Html.Raw(ViewBag.SqlSelect)
+                        } else {
+                            @Html.Raw($"SELECT TOP 1000 * FROM {ViewBag.Table}")
+                        }
+                    </textarea>
+                    <input type="button" id="sql_execute" value="Execute" class="btn btn-primary" />
+                </div>
+            </div>
+
             @await Html.PartialAsync("_Data", Model)
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        $('#sql_execute').on('click', function (e) {
+            $.ajax({
+                url: '@Url.Action("Data", "Database", new { serveur = ViewBag.Serveur, database = ViewBag.Database, table = ViewBag.Table })',
+                method: "POST",
+                data: { sql: $('#sql').val() }
+            }).done(function (result) {
+                $('#data').html(result);
+            });
+        })
+    </script>
+}
