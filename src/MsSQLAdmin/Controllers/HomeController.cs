@@ -26,7 +26,10 @@ namespace MsSQLAdmin.Controllers {
                 await this.Service.TestConnectionAsync(model.ConnectionString);
                 this.HttpContext.Session.Set("DatabaseConnectionModel", model);
 
-                return RedirectToAction("Index", "Database");
+                if (string.IsNullOrWhiteSpace(model.Database))
+                    return RedirectToAction("Index", "Database", new { serveur = model.Server.Replace("\\", "-") });
+                else
+                    return RedirectToAction("Tables", "Database", new { serveur = model.Server.Replace("\\", "-"), database = model.Database });
             }
 
             return View(model);
