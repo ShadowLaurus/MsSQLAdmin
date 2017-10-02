@@ -1,66 +1,20 @@
-﻿@model IEnumerable<MsSQLAdmin.Models.TableModel>
+﻿@model MsSQLAdmin.Models.TableViewModel
 @{
     ViewData["Title"] = "Table";
 }
 <h2>Table</h2>
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Type)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MaxLength)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Precision)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Scale)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsNullable)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsPrimaryKey)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model) {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Type)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.MaxLength)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Precision)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Scale)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.IsNullable)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.IsPrimaryKey)
-                </td>
-                <td>
-                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+<div>    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#Structure" aria-controls="Structure" role="tab" data-toggle="tab">Structure</a></li>
+        <li role="presentation"><a href="#Data" aria-controls="Data" role="tab" data-toggle="tab">Data</a></li>
+    </ul>
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="Structure">
+            @await Html.PartialAsync("_Structure", Model.TableColumns)
+        </div>
+        <div role="tabpanel" class="tab-pane" id="Data">
+            @await Html.PartialAsync("_Data", Model)
+        </div>
+    </div>
+</div>

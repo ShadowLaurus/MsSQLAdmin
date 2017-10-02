@@ -63,8 +63,8 @@ namespace MsSQLAdmin.Services {
             return models;
         }
 
-        public async Task<List<TableModel>> GetDatabaseTableDetailAsync(string connectionString, string table) {
-            List<TableModel> models = new List<TableModel>();
+        public async Task<List<TableColumnModel>> GetDatabaseTableDetailAsync(string connectionString, string table) {
+            List<TableColumnModel> models = new List<TableColumnModel>();
             using (var connection = new SqlConnection(connectionString)) {
                 await connection.OpenAsync();
 
@@ -89,7 +89,7 @@ WHERE c.object_id = OBJECT_ID(@tablename)";
 
                     using (var reader = await command.ExecuteReaderAsync()) {
                         while (await reader.ReadAsync()) {
-                            models.Add(new TableModel() {
+                            models.Add(new TableColumnModel() {
                                 Name = await reader.IsDBNullAsync(0) ? null : reader.GetString(0),
                                 Type = await reader.IsDBNullAsync(1) ? null : reader.GetString(1),
                                 MaxLength = reader.GetInt32(2),

@@ -20,6 +20,11 @@ namespace MsSQLAdmin {
         public void ConfigureServices(IServiceCollection services) {
             services.AddMvc();
 
+            services.AddResponseCaching(options => {
+                options.UseCaseSensitivePaths = true;
+                options.MaximumBodySize = 1024;
+            });
+
             // Adds a default in-memory implementation of IDistributedCache.
             services.AddDistributedMemoryCache();
 
@@ -43,6 +48,7 @@ namespace MsSQLAdmin {
             }
 
             app.UseStaticFiles();
+            app.UseResponseCaching();
 
             app.UseSession();
             app.UseMvc(routes => {

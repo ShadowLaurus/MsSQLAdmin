@@ -1,0 +1,27 @@
+﻿@model MsSQLAdmin.Models.TableViewModel
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                @foreach (var column in Model.TableColumns) {
+                    <th>
+                        @Html.DisplayFor(model => column.Name)
+                    </th>
+                }
+            </tr>
+        </thead>
+        @if (Model.TableData != null && Model.TableData.Count() > 0) {
+            <tbody>
+                @foreach (var row in Model.TableData) {
+                    <tr>
+                        @foreach (var column in Model.TableColumns) {
+                            <td>
+                                @Html.DisplayFor(modelItem => row[column.Name])
+                            </td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        }
+    </table>
+</div>

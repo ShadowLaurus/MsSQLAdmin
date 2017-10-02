@@ -1,15 +1,11 @@
 ﻿@if (!string.IsNullOrWhiteSpace(ViewBag.Serveur)) {
-    <p>
-        <span>/ </span>
-        @Html.ActionLink((string)ViewBag.Serveur, "Index", "Database", new { serveur = ViewBag.Serveur })<span> / </span>
-
+    <ol class="breadcrumb">
+        <li>@Html.ActionLink((string)ViewBag.Serveur, "Index", "Database", new { serveur = ViewBag.Serveur })</li>
         @if (!string.IsNullOrWhiteSpace(ViewBag.Database)) {
-            @Html.ActionLink((string)ViewBag.Database, "Tables", "Database", new { serveur = ViewBag.Serveur, database = ViewBag.Database })
-
+            <li>@Html.ActionLink((string)ViewBag.Database, "Tables", "Database", new { serveur = ViewBag.Serveur, database = ViewBag.Database })</li>
             @if (!string.IsNullOrWhiteSpace(ViewBag.Table)) {
-                <span> / </span>
-                @Html.ActionLink((string)ViewBag.Table, "Table", "Database", new { serveur = ViewBag.Serveur, database = ViewBag.Database, table = ViewBag.Table })
+                <li>@Html.ActionLink((string)ViewBag.Table, "Table", "Database", new { serveur = ViewBag.Serveur, database = ViewBag.Database, table = ViewBag.Table })</li>
             }
         }
-    </p>
+    </ol>
 }
