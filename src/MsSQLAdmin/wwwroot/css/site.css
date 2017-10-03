@@ -18,7 +18,8 @@
 @media (min-width: 1200px) {
     .container {
         width: 100%;
-        padding-left: 25px;
-        padding-right: 25px;
+    }
+    .body-content {
+        padding: 25px;
     }
 }

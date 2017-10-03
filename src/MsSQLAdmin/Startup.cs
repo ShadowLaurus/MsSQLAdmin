@@ -59,7 +59,7 @@ namespace MsSQLAdmin {
             app.UseMvc(routes => {
                 routes.MapRoute(
                     name: "database",
-                    template: "Editor/{serveur}/{database?}/{table?}",
+                    template: "Server/{serveur}/{database?}/{table?}",
                     defaults: new { controller = "Database", action = "Index", area = string.Empty });
                 routes.MapRoute(
                     name: "default",

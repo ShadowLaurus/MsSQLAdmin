@@ -23,6 +23,12 @@ namespace MsSQLAdmin.Controllers {
             return View();
         }
 
+        [HttpGet("{serveur}")]
+        public IActionResult Server([FromRoute]string serveur) {
+            this.ServiceConnection.SetServeur(serveur);
+            return View();
+        }
+
         [HttpPost]
         public async Task<IActionResult> Index(DatabaseConnectionModel model) {
             if (ModelState.IsValid) {
@@ -30,10 +36,7 @@ namespace MsSQLAdmin.Controllers {
                     await this.ServiceDatabase.TestConnectionAsync(model.ConnectionString);
                     this.ServiceConnection.SetDatabaseConnection(model);
 
-                    if (string.IsNullOrWhiteSpace(model.Database))
-                        return RedirectToAction("Index", "Database", new { serveur = model.Server.Replace("\\", "-") });
-                    else
-                        return RedirectToAction("Tables", "Database", new { serveur = model.Server.Replace("\\", "-"), database = model.Database });
+                    return RedirectToAction("Server", new { serveur = model.Server.Replace("\\", "-") });
                 } catch (Exception e) {
                     ModelState.AddModelError(string.Empty, e.Message);
                 }

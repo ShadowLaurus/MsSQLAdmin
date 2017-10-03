@@ -1,0 +1,13 @@
+﻿@inject MsSQLAdmin.Services.ConnectionService ConnectionService
+
+@if (!string.IsNullOrWhiteSpace(ConnectionService.Serveur)) {
+    <ol class="breadcrumb">
+        <li>Serveur : @Html.ActionLink(ConnectionService.Serveur, "Index", "Database", new { serveur = ConnectionService.Serveur })</li>
+        @if (!string.IsNullOrWhiteSpace(ConnectionService.Database)) {
+            <li>Base de données : @Html.ActionLink(ConnectionService.Database, "Tables", "Database", new { serveur = ConnectionService.Serveur, database = ConnectionService.Database })</li>
+            @if (!string.IsNullOrWhiteSpace(ConnectionService.Table)) {
+                <li>Table : @Html.ActionLink(ConnectionService.Table, "Table", "Database", new { serveur = ConnectionService.Serveur, database = ConnectionService.Database, table = ConnectionService.Table })</li>
+            }
+        }
+    </ol>
+}

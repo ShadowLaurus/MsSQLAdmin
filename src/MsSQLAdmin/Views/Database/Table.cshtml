@@ -1,9 +1,10 @@
-﻿@model MsSQLAdmin.Models.TableViewModel
+﻿@inject MsSQLAdmin.Services.ConnectionService ConnectionService
+@model MsSQLAdmin.Models.TableViewModel
 @{
     ViewData["Title"] = "Table";
 
     @if (string.IsNullOrWhiteSpace(ViewBag.SqlSelect)) {
-        ViewBag.SqlSelect = $"SELECT TOP 1000 * FROM {ViewBag.Table}";
+        ViewBag.SqlSelect = $"SELECT TOP 1000 * FROM {ConnectionService.Table}";
     }
 }
 <h2>Table</h2>
@@ -57,7 +58,7 @@
 
                 $('#sql_execute').on('click', function (e) {
                     $.ajax({
-                        url: '@Url.Action("Data", "Database", new { serveur = ViewBag.Serveur, database = ViewBag.Database, table = ViewBag.Table })',
+                        url: '@Url.Action("Data", "Database", new { serveur = ConnectionService.Serveur, database = ConnectionService.Database, table = ConnectionService.Table })',
                         method: "POST",
                         data: { sql: editor.getValue() }
                     }).done(function (result) {

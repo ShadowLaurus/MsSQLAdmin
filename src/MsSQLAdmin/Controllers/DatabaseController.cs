@@ -13,60 +13,51 @@ namespace MsSQLAdmin.Controllers {
             this.ServiceConnection = serviceConnection;
         }
 
-        [HttpGet("Editor/{serveur}")]
+        [HttpGet("Server/{serveur}")]
         public async Task<IActionResult> Index([FromRoute]string serveur) {
             var model = this.ServiceConnection.GetDatabaseConnection();
             var models = await this.ServiceDatabase.GetDatabasesListAsync(model.ConnectionString);
-
-            ViewBag.Serveur = serveur;
-
             return View(models);
         }
 
-        [HttpGet("Editor/{serveur}/{database}")]
+        [HttpGet("Server/{serveur}/{database}")]
         public async Task<IActionResult> Tables([FromRoute]string serveur, [FromRoute]string database) {
             var model = this.ServiceConnection.GetDatabaseConnection();
             model.Database = database;
 
+            this.ServiceConnection.SetDatabase(database);
+
             var models = await this.ServiceDatabase.GetDatabaseTablesListAsync(model.ConnectionString, database);
-
-            ViewBag.Serveur = serveur;
-            ViewBag.Database = database;
-
             return View(models);
         }
 
         [ResponseCache(Duration = 60)]//, VaryByQueryKeys = new string[] { "serveur", "database", "table" }
-        [HttpGet("Editor/{serveur}/{database}/{table}")]
+        [HttpGet("Server/{serveur}/{database}/{table}")]
         public async Task<IActionResult> Table([FromRoute]string serveur, [FromRoute] string database, [FromRoute]string table) {
             var connection = this.ServiceConnection.GetDatabaseConnection();
             connection.Database = database;
 
+            this.ServiceConnection.SetTable(table);
+
             TableViewModel model = new TableViewModel() {
                 TableColumns = await this.ServiceDatabase.GetDatabaseTableDetailAsync(connection.ConnectionString, table)
             };
-
-            ViewBag.Serveur = serveur;
-            ViewBag.Database = database;
-            ViewBag.Table = table;
-
+            
             return View(model);
         }
 
-        [HttpPost("Editor/{serveur}/{database}/{table}")]
+        [HttpPost("Server/{serveur}/{database}/{table}")]
         public async Task<IActionResult> Data([FromRoute]string serveur, [FromRoute] string database, [FromRoute] string table, [FromForm] string sql) {
             var connection = this.ServiceConnection.GetDatabaseConnection();
             connection.Database = database;
+
+            this.ServiceConnection.SetTable(table);
 
             TableViewModel model = new TableViewModel() {
                 TableColumns = await this.ServiceDatabase.GetDatabaseTableDetailAsync(connection.ConnectionString, table),
                 TableData = await this.ServiceDatabase.GetDataAsync(connection.ConnectionString, sql)
             };
-
-            ViewBag.Serveur = serveur;
-            ViewBag.Database = database;
-            ViewBag.Table = table;
-
+            
             return PartialView("_Data", model);
         }
     }

@@ -1,14 +1,15 @@
-﻿@model IEnumerable<MsSQLAdmin.Models.DatabaseModel>
-
+﻿@inject MsSQLAdmin.Services.ConnectionService ConnectionService
+@model IEnumerable<MsSQLAdmin.Models.DatabaseModel>
 @{
     ViewData["Title"] = "Index";
 }
 
-<h2>Index</h2>
+<h2>Bases de données</h2>
 
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+
 <table class="table">
     <thead>
         <tr>
@@ -28,7 +29,7 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.ActionLink(item.Name, "Tables", new { serveur = ViewBag.Serveur, database = item.Name })
+                @Html.ActionLink(item.Name, "Tables", new { serveur = ConnectionService.Serveur, database = item.Name })
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Description)

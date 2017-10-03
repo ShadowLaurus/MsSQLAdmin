@@ -6,6 +6,8 @@ namespace MsSQLAdmin.Infrastructure {
         public static void Set<T>(this ISession session, string key, T value) {
             if (value == null)
                 session.Remove(key);
+            else if (value is string)
+                session.SetString(key, value.ToString());
             else
                 session.SetString(key, JsonConvert.SerializeObject(value));
         }

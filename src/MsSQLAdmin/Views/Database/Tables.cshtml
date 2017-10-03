@@ -1,4 +1,5 @@
-﻿@model IEnumerable<MsSQLAdmin.Models.TableListModel>
+﻿@inject MsSQLAdmin.Services.ConnectionService ConnectionService
+@model IEnumerable<MsSQLAdmin.Models.TableListModel>
 @{
     ViewData["Title"] = "Tables";
 }
@@ -25,7 +26,7 @@
                     @Html.DisplayFor(modelItem => item.Schema)
                 </td>
                 <td>
-                    @Html.ActionLink(item.Name, "Table", new { serveur = ViewBag.Serveur, database = ViewBag.Database, table = $"{item.Schema}.{item.Name}" })
+                    @Html.ActionLink(item.Name, "Table", new { serveur = ConnectionService.Serveur, database = ConnectionService.Database, table = $"{item.Schema}.{item.Name}" })
                 </td>
                 <td>
                     @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
