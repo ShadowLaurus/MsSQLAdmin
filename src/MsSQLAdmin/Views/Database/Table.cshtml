@@ -1,11 +1,15 @@
 ﻿@model MsSQLAdmin.Models.TableViewModel
 @{
     ViewData["Title"] = "Table";
+
+    @if (string.IsNullOrWhiteSpace(ViewBag.SqlSelect)) {
+        ViewBag.SqlSelect = $"SELECT TOP 1000 * FROM {ViewBag.Table}";
+    }
 }
 <h2>Table</h2>
 <div>
     <!-- Nav tabs -->
-    <ul class="nav nav-tabs" role="tablist">
+    <ul class="nav nav-tabs" role="tablist" id="data-tabs">
         <li role="presentation" class="active"><a href="#Structure" aria-controls="Structure" role="tab" data-toggle="tab">Structure</a></li>
         <li role="presentation"><a href="#Data" aria-controls="Data" role="tab" data-toggle="tab">Data</a></li>
     </ul>
@@ -18,13 +22,7 @@
             <div class="panel panel-default">
                 <div class="panel-body">
                     <h2>SQL : </h2>
-                    <textarea id="sql" style="height: 100%; width: 100%;">
-                        @if (!string.IsNullOrWhiteSpace(ViewBag.SqlSelect)){ 
-                            @Html.Raw(ViewBag.SqlSelect)
-                        } else {
-                            @Html.Raw($"SELECT TOP 1000 * FROM {ViewBag.Table}")
-                        }
-                    </textarea>
+                    <textarea id="sql" class="form-control">@Html.Raw(ViewBag.SqlSelect)</textarea>
                     <input type="button" id="sql_execute" value="Execute" class="btn btn-primary" />
                 </div>
             </div>
@@ -34,16 +32,39 @@
     </div>
 </div>
 
-@section Scripts {
+@section Scripts {<!-- Create a simple CodeMirror instance -->
     <script>
-        $('#sql_execute').on('click', function (e) {
-            $.ajax({
-                url: '@Url.Action("Data", "Database", new { serveur = ViewBag.Serveur, database = ViewBag.Database, table = ViewBag.Table })',
-                method: "POST",
-                data: { sql: $('#sql').val() }
-            }).done(function (result) {
-                $('#data').html(result);
+        (function ($) {
+            var editor;
+
+            $(document).ready(function () {
+                editor = CodeMirror.fromTextArea($('#sql')[0], {
+                    lineNumbers: true,
+                    mode: 'text/x-sql',
+                    indentWithTabs: true,
+                    smartIndent: true,
+                    lineNumbers: true,
+                    matchBrackets: true
+                });
+
+                $('#data-tabs > li > a[aria-controls="Data"]').on('shown.bs.tab', function (e) {
+                    console.log("test");
+
+                    if (editor && editor instanceof CodeMirror) {
+                        editor.refresh();
+                    }
+                });
+
+                $('#sql_execute').on('click', function (e) {
+                    $.ajax({
+                        url: '@Url.Action("Data", "Database", new { serveur = ViewBag.Serveur, database = ViewBag.Database, table = ViewBag.Table })',
+                        method: "POST",
+                        data: { sql: editor.getValue() }
+                    }).done(function (result) {
+                        $('#data').html(result);
+                    });
+                });
             });
-        })
+        })(jQuery);
     </script>
 }

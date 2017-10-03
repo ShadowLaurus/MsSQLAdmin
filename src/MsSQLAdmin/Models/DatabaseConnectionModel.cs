@@ -1,15 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace MsSQLAdmin.Models {
     public class DatabaseConnectionModel {
+        [Required]
+        [Display(Name = "Serveur : ")]
         public string Server { get; set; }
-        public string Username { get; set; }
-        public string Password { get; set; }
+        [Display(Name = "Base de données : ")]
         public string Database { get; set; }
+        [Display(Name = "Login : ")]
+        public string Username { get; set; }
+        [Display(Name = "Mdp : ")]
+        public string Password { get; set; }
+        [Display(Name = "Type de connexion : ")]
+        public bool IsWindows { get; set; }
 
-        public string ConnectionString => $"Server={this.Server};Database={this.Database};User Id={this.Username};Password={this.Password};";
+        public string ConnectionString => this.IsWindows ? this.ConnectionStringWindows : this.ConnectionStringUserPwd;
+        public string ConnectionStringUserPwd => $"Server={this.Server};Database={this.Database};User Id={this.Username};Password={this.Password};";
+        public string ConnectionStringWindows => $"Server={this.Server};Database={this.Database};Trusted_Connection=True;";
     }
 }

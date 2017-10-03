@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/bungeemonkee/PoorMansTSqlFormatterRedux/master/LICENSE.txt</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/bungeemonkee/PoorMansTSqlFormatterRedux</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/bungeemonkee/PoorMansTSqlFormatterRedux</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>sql formatter text</PackageTags>
+    <AssemblyVersion>1.0.3.0</AssemblyVersion>
+    <FileVersion>1.0.3.0</FileVersion>
+    <Version>1.0.3</Version>
+    <Description>This is a port of Poor Man's T-SQL Formatter to .Net Standard 2.0 so it can be used with .Net or .Net Core. Everything but the core library (console app, web app, plugins, etc.) has been removed.</Description>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Xml.XmlDocument" Version="4.3.0" />
+    <PackageReference Include="System.Xml.XPath.XmlDocument" Version="4.3.0" />
+  </ItemGroup>
+
+</Project>

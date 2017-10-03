@@ -20,4 +20,8 @@
     <Folder Include="wwwroot\js\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\PoorMansTSqlFormatterRedux\PoorMansTSqlFormatterRedux.csproj" />
+  </ItemGroup>
+
 </Project>
