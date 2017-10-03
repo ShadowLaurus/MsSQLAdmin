@@ -14,3 +14,11 @@
     border-top: 1px solid black;
     border-bottom: 1px solid black;
 }
+
+@media (min-width: 1200px) {
+    .container {
+        width: 100%;
+        padding-left: 25px;
+        padding-right: 25px;
+    }
+}

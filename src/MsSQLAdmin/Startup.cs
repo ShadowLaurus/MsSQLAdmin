@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MsSQLAdmin.Services;
+using Microsoft.AspNetCore.Http;
 
 namespace MsSQLAdmin {
     public class Startup {
@@ -25,6 +26,9 @@ namespace MsSQLAdmin {
                 options.MaximumBodySize = 1024;
             });
 
+            // You need to register IHttpContextAccessor.
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
             // Adds a default in-memory implementation of IDistributedCache.
             services.AddDistributedMemoryCache();
 
@@ -36,6 +40,7 @@ namespace MsSQLAdmin {
             });
 
             services.AddScoped<DatabaseService>();
+            services.AddScoped<ConnectionService>();            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

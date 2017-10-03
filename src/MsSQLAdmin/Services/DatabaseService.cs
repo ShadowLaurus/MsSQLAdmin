@@ -106,8 +106,8 @@ WHERE c.object_id = OBJECT_ID(@tablename)";
             return models;
         }
 
-        public async Task<IEnumerable<IDictionary<string, object>>> GetDataAsync(string connectionString, string sql) {
-            List<Dictionary<string, object>> models = new List<Dictionary<string, object>>();
+        public async Task<IList<IDictionary<string, object>>> GetDataAsync(string connectionString, string sql) {
+            IList<IDictionary<string, object>> models = new List<IDictionary<string, object>>();
 
             using (var connection = new SqlConnection(connectionString)) {
                 await connection.OpenAsync();

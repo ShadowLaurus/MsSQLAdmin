@@ -10,26 +10,33 @@ using MsSQLAdmin.Infrastructure;
 
 namespace MsSQLAdmin.Controllers {
     public class HomeController : Controller {
-        private DatabaseService Service { get; set; }
+        private DatabaseService ServiceDatabase { get; set; }
+        private ConnectionService ServiceConnection { get; set; }
 
-        public HomeController(DatabaseService service) {
-            this.Service = service;
+        public HomeController(DatabaseService serviceDatabase, ConnectionService serviceConnection) {
+            this.ServiceDatabase = serviceDatabase;
+            this.ServiceConnection = serviceConnection;
         }
 
         public IActionResult Index() {
+            this.ServiceConnection.SetDatabaseConnection(null);
             return View();
         }
 
         [HttpPost]
         public async Task<IActionResult> Index(DatabaseConnectionModel model) {
             if (ModelState.IsValid) {
-                await this.Service.TestConnectionAsync(model.ConnectionString);
-                this.HttpContext.Session.Set("DatabaseConnectionModel", model);
+                try {
+                    await this.ServiceDatabase.TestConnectionAsync(model.ConnectionString);
+                    this.ServiceConnection.SetDatabaseConnection(model);
 
-                if (string.IsNullOrWhiteSpace(model.Database))
-                    return RedirectToAction("Index", "Database", new { serveur = model.Server.Replace("\\", "-") });
-                else
-                    return RedirectToAction("Tables", "Database", new { serveur = model.Server.Replace("\\", "-"), database = model.Database });
+                    if (string.IsNullOrWhiteSpace(model.Database))
+                        return RedirectToAction("Index", "Database", new { serveur = model.Server.Replace("\\", "-") });
+                    else
+                        return RedirectToAction("Tables", "Database", new { serveur = model.Server.Replace("\\", "-"), database = model.Database });
+                } catch (Exception e) {
+                    ModelState.AddModelError(string.Empty, e.Message);
+                }
             }
 
             return View(model);
