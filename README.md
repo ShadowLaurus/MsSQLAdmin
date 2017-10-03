@@ -1,2 +1,3 @@
-# MsSQLAdmin
-admin web pour MS SQL Server
+﻿# MsSQLAdmin
+
+A web interface for SQL Server write in ASP.NET MVC Core 2.0.
