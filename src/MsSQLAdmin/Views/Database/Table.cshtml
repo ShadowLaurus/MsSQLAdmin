@@ -23,13 +23,22 @@
             <div class="panel panel-default">
                 <div class="panel-body">
                     <h2>SQL : </h2>
-                    <textarea id="sql" class="form-control">@Html.Raw(ViewBag.SqlSelect)</textarea>
-                    <input type="button" id="sql_execute" value="Execute" class="btn btn-primary" />
+                    <div class="row form-group">
+                        <div class="col-md-12">
+                            <textarea id="sql" class="form-control">@Html.Raw(ViewBag.SqlSelect)</textarea>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-md-12">
+                            <input type="button" id="sql_execute" value="Execute" class="btn btn-primary" />
+                            <input type="button" id="sql_format" value="Format" class="btn btn-primary" />
+                        </div>
+                    </div>
                 </div>
-            </div>
+                    </div>
 
-            @await Html.PartialAsync("_Data", Model)
-        </div>
+                    @await Html.PartialAsync("_Data", Model)
+                </div>
     </div>
 </div>
 
@@ -63,6 +72,17 @@
                         data: { sql: editor.getValue() }
                     }).done(function (result) {
                         $('#data').html(result);
+                    });
+                });
+
+                $('#sql_format').on('click', function (e) {
+                    $.ajax({
+                        url: '@Url.Action("FormatTSqlWithOptions", "SqlFormat")',
+                        method: "POST",
+                        contentType: 'application/json',
+                        data: JSON.stringify({ "inputString": editor.getValue(), "coloring": false })
+                    }).done(function (result) {
+                        editor.setValue(result);
                     });
                 });
             });

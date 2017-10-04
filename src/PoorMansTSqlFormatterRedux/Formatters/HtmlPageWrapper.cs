@@ -75,6 +75,7 @@ namespace PoorMansTSqlFormatterRedux.Formatters
 </body>
 </html>
 ";
+        private const string WITHOUT_HTML = "{0}";
 
         public bool HTMLFormatted { get { return true; } }
         public string ErrorOutputPrefix { 
@@ -94,7 +95,7 @@ namespace PoorMansTSqlFormatterRedux.Formatters
             if (_underlyingFormatter.HTMLFormatted)
                 return string.Format(HTML_OUTER_PAGE, formattedResult);
             else
-                return string.Format(HTML_OUTER_PAGE, Utils.HtmlEncode(formattedResult));
+                return string.Format(WITHOUT_HTML, Utils.HtmlEncode(formattedResult));
         }
     }
 }
