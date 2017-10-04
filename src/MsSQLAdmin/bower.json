@@ -6,6 +6,7 @@
     "jquery": "2.2.0",
     "jquery-validation": "1.14.0",
     "jquery-validation-unobtrusive": "3.2.6",
-    "codemirror": "5.24.2"
+    "codemirror": "5.24.2",
+    "datatables": "datatable#1.10.16"
   }
 }
