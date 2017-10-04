@@ -1,31 +1,32 @@
 ﻿@model MsSQLAdmin.Models.TableViewModel
-
 <div class="table-responsive" id="data">
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Row</th>
-                @foreach (var column in Model.TableColumns) {
-                    <th>
-                        @Html.Raw(column.Name)
-                    </th>
-                }
-            </tr>
-        </thead>
-        @if (Model.TableData != null && Model.TableData.Count() > 0) {
-            <tbody>
-                @for (int i = 0; i < Model.TableData.Count(); i++) {
-                    var row = Model.TableData[i];
-                    <tr>
-                        <td>@i</td>
-                        @foreach (var column in Model.TableColumns) {
-                            <td>
-                                @Html.Raw(row[column.Name])
-                            </td>
-                        }
-                    </tr>
-                }
-            </tbody>
-        }
-    </table>
+    @if (Model != null) {
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Row</th>
+                    @foreach (var column in Model.TableColumns) {
+                        <th>
+                            @Html.Raw(column.Name)
+                        </th>
+                    }
+                </tr>
+            </thead>
+            @if (Model.TableData != null && Model.TableData.Count() > 0) {
+                <tbody>
+                    @for (int i = 0; i < Model.TableData.Count(); i++) {
+                        var row = Model.TableData[i];
+                        <tr>
+                            <td>@i</td>
+                            @foreach (var column in Model.TableColumns) {
+                                <td>
+                                    @Html.Raw(row[column.Name])
+                                </td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+            }
+        </table>
+    }
 </div>

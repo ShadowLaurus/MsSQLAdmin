@@ -37,6 +37,7 @@ namespace MsSQLAdmin.Controllers {
             var connection = this.ServiceConnection.GetDatabaseConnection();
             connection.Database = database;
 
+            this.ServiceConnection.SetDatabase(database);
             this.ServiceConnection.SetTable(table);
 
             TableViewModel model = new TableViewModel() {
@@ -46,19 +47,22 @@ namespace MsSQLAdmin.Controllers {
             return View(model);
         }
 
-        [HttpPost("Server/{serveur}/{database}/{table}")]
+        [HttpPost("Server/{serveur}/{database?}/{table?}")]
         public async Task<IActionResult> Data([FromRoute]string serveur, [FromRoute] string database, [FromRoute] string table, [FromForm] string sql) {
             var connection = this.ServiceConnection.GetDatabaseConnection();
             connection.Database = database;
 
+            this.ServiceConnection.SetDatabase(database);
             this.ServiceConnection.SetTable(table);
 
-            TableViewModel model = new TableViewModel() {
-                TableColumns = await this.ServiceDatabase.GetDatabaseTableDetailAsync(connection.ConnectionString, table),
-                TableData = await this.ServiceDatabase.GetDataAsync(connection.ConnectionString, sql)
-            };
-            
+            TableViewModel model = await this.ServiceDatabase.GetDataAsync(connection.ConnectionString, sql);
+
             return PartialView("_Data", model);
+        }
+
+        [HttpGet("Server/{serveur}/Sql")]
+        public IActionResult Sql([FromRoute]string serveur) {
+            return View();
         }
     }
 }

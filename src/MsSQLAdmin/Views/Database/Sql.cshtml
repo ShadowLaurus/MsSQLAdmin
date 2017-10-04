@@ -1,0 +1,81 @@
+﻿@inject MsSQLAdmin.Services.ConnectionService ConnectionService
+@model MsSQLAdmin.Models.TableViewModel
+@{
+    ViewData["Title"] = "Table";
+
+    @if (string.IsNullOrWhiteSpace(ViewBag.SqlSelect)) {
+        ViewBag.SqlSelect = $"SELECT TOP 1000 * FROM {ConnectionService.Table}";
+    }
+}
+<h2>SQL</h2>
+<div>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <h2>SQL : </h2>
+            <div class="row form-group">
+                <div class="col-md-12">
+                    <textarea id="sql" class="form-control">@Html.Raw(ViewBag.SqlSelect)</textarea>
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-md-12">
+                    <input type="button" id="sql_execute" value="Execute" class="btn btn-primary" />
+                    <input type="button" id="sql_format" value="Format" class="btn btn-primary" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @await Html.PartialAsync("_Data", Model)
+</div>
+
+@section Scripts {<!-- Create a simple CodeMirror instance -->
+    <script>
+        (function ($) {
+            var editor;
+
+            $(document).ready(function () {
+                $('#data table').DataTable();
+
+                editor = CodeMirror.fromTextArea($('#sql')[0], {
+                    lineNumbers: true,
+                    mode: 'text/x-sql',
+                    indentWithTabs: true,
+                    smartIndent: true,
+                    lineNumbers: true,
+                    matchBrackets: true
+                });
+
+                $('#data-tabs > li > a[aria-controls="Data"]').on('shown.bs.tab', function (e) {
+                    console.log("test");
+
+                    if (editor && editor instanceof CodeMirror) {
+                        editor.refresh();
+                    }
+                });
+
+                $('#sql_execute').on('click', function (e) {
+                    $.ajax({
+                        url: '@Url.Action("Data", "Database", new { serveur = ConnectionService.Serveur, database = ConnectionService.Database, table = ConnectionService.Table })',
+                        method: "POST",
+                        data: { sql: editor.getValue() }
+                    }).done(function (result) {
+                        $('#data').html(result);
+                        $('#data table').DataTable();
+                    });
+                });
+
+                $('#sql_format').on('click', function (e) {
+                    $.ajax({
+                        url: '@Url.Action("FormatTSqlWithOptions", "SqlFormat")',
+                        method: "POST",
+                        contentType: 'application/json',
+                        data: JSON.stringify({ "inputString": editor.getValue(), "coloring": false })
+                    }).done(function (result) {
+                        editor.setValue(result);
+                    });
+                });
+            });
+        })(jQuery);
+    </script>
+}
