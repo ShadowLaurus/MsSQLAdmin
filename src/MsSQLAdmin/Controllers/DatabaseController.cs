@@ -2,6 +2,7 @@
 using MsSQLAdmin.Services;
 using MsSQLAdmin.Models;
 using System.Threading.Tasks;
+using System;
 
 namespace MsSQLAdmin.Controllers {
     public class DatabaseController : Controller {
@@ -17,6 +18,8 @@ namespace MsSQLAdmin.Controllers {
         public async Task<IActionResult> Index([FromRoute]string serveur) {
             var model = this.ServiceConnection.GetDatabaseConnection();
             var models = await this.ServiceDatabase.GetDatabasesListAsync(model.ConnectionString);
+            this.ServiceConnection.SetServeur(serveur);
+
             return View(models);
         }
 
@@ -43,25 +46,33 @@ namespace MsSQLAdmin.Controllers {
             TableViewModel model = new TableViewModel() {
                 TableColumns = await this.ServiceDatabase.GetDatabaseTableDetailAsync(connection.ConnectionString, table)
             };
-            
+
             return View(model);
         }
 
-        [HttpPost("Server/{serveur}/{database?}/{table?}")]
+        [HttpPost("Server/{serveur}/Sql", Order = 1)]
+        [HttpPost("Server/{serveur}/{database}/{table}", Order = 0)]
         public async Task<IActionResult> Data([FromRoute]string serveur, [FromRoute] string database, [FromRoute] string table, [FromForm] string sql) {
             var connection = this.ServiceConnection.GetDatabaseConnection();
+            TableViewModel model = null;
+
             connection.Database = database;
 
             this.ServiceConnection.SetDatabase(database);
             this.ServiceConnection.SetTable(table);
 
-            TableViewModel model = await this.ServiceDatabase.GetDataAsync(connection.ConnectionString, sql);
+            try {
+                model = await this.ServiceDatabase.GetDataAsync(connection.ConnectionString, sql);
+            } catch (Exception e) {
+                model = new TableViewModel() { ErrorMessage = e.Message };
+            }
 
             return PartialView("_Data", model);
         }
 
         [HttpGet("Server/{serveur}/Sql")]
         public IActionResult Sql([FromRoute]string serveur) {
+            this.ServiceConnection.SetServeur(serveur);
             return View();
         }
     }

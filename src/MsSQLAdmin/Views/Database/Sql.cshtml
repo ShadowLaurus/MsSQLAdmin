@@ -56,7 +56,7 @@
 
                 $('#sql_execute').on('click', function (e) {
                     $.ajax({
-                        url: '@Url.Action("Data", "Database", new { serveur = ConnectionService.Serveur, database = ConnectionService.Database, table = ConnectionService.Table })',
+                        url: '@Url.Action("Data", "Database", new { serveur = ConnectionService.Serveur })',
                         method: "POST",
                         data: { sql: editor.getValue() }
                     }).done(function (result) {

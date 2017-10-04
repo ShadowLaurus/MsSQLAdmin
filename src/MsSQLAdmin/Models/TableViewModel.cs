@@ -5,5 +5,8 @@ namespace MsSQLAdmin.Models {
         public IEnumerable<TableColumnModel> TableColumns { get; set; }
 
         public IList<IDictionary<string, object>> TableData { get; set; }
+
+        public long DDLResult { get; set; }
+        public string ErrorMessage { get; set; }
     }
 }

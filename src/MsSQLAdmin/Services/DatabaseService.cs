@@ -117,19 +117,23 @@ WHERE c.object_id = OBJECT_ID(@tablename)";
                     command.CommandType = System.Data.CommandType.Text;
                     command.CommandText = sql;
 
-                    using (var reader = await command.ExecuteReaderAsync()) {
-                        model.TableColumns = Enumerable.Range(0, reader.FieldCount).Select(reader.GetName).Select(x => new TableColumnModel() { Name = x }).ToList();
+                    if (sql.Trim().ToLower().StartsWith("select")) {
+                        using (var reader = await command.ExecuteReaderAsync()) {
+                            model.TableColumns = Enumerable.Range(0, reader.FieldCount).Select(reader.GetName).Select(x => new TableColumnModel() { Name = x }).ToList();
 
-                        while (await reader.ReadAsync()) {
-                            models.Add(new Dictionary<string, object>());
+                            while (await reader.ReadAsync()) {
+                                models.Add(new Dictionary<string, object>());
 
-                            foreach (var column in model.TableColumns) {
-                                int order = reader.GetOrdinal(column.Name);
-                                models.Last().Add(column.Name, reader.GetValue(order));
+                                foreach (var column in model.TableColumns) {
+                                    int order = reader.GetOrdinal(column.Name);
+                                    models.Last().Add(column.Name, reader.GetValue(order));
+                                }
                             }
-                        }
 
-                        model.TableData = models;
+                            model.TableData = models;
+                        }
+                    } else {
+                        model.DDLResult = await command.ExecuteNonQueryAsync();
                     }
                 }
             }
