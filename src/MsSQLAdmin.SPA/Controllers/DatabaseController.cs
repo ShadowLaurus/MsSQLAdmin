@@ -19,7 +19,7 @@ namespace MsSQLAdmin.Controllers {
             var model = this.ServiceConnection.GetDatabaseConnection();
             var models = await this.ServiceDatabase.GetDatabasesListAsync(model.ConnectionString);
             this.ServiceConnection.SetServeur(serveur);
-                
+
             return View(models);
         }
 

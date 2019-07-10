@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using MsSQLAdmin.Models;
 using MsSQLAdmin.Services;
-using MsSQLAdmin.Infrastructure;
 
 namespace MsSQLAdmin.Controllers {
     public class HomeController : Controller {
@@ -18,47 +15,51 @@ namespace MsSQLAdmin.Controllers {
             this.ServiceConnection = serviceConnection;
         }
 
+        [HttpGet]
         public IActionResult Index() {
-            this.ServiceConnection.SetDatabaseConnection(null);
-            return View();
+            this.ServiceConnection.SetDatabaseConnection(new DatabaseConnectionModel() {
+                Server = @"(localdb)\MSSQLLocalDB",
+                Database = "master"
+            });
+            return this.View(this.ServiceConnection.GetDatabaseConnection());
         }
 
-        [HttpGet("{serveur}")]
-        public IActionResult Server([FromRoute]string serveur) {
+        [HttpGet("[action]/{serveur}")]
+        public IActionResult ChangeServer([FromRoute]string serveur) {
             this.ServiceConnection.SetServeur(serveur);
-            return View();
+            return this.View();
         }
 
         [HttpPost]
         public async Task<IActionResult> Index(DatabaseConnectionModel model) {
-            if (ModelState.IsValid) {
+            if (this.ModelState.IsValid) {
                 try {
                     await this.ServiceDatabase.TestConnectionAsync(model.ConnectionString);
                     this.ServiceConnection.SetDatabaseConnection(model);
 
-                    return RedirectToAction("Server", new { serveur = model.Server.Replace("\\", "-") });
+                    return this.RedirectToAction(nameof(ChangeServer), new { serveur = model.Server.Replace("\\", "-") });
                 } catch (Exception e) {
-                    ModelState.AddModelError(string.Empty, e.Message);
+                    this.ModelState.AddModelError(string.Empty, e.Message);
                 }
             }
 
-            return View(model);
+            return this.View(model);
         }
 
         public IActionResult About() {
-            ViewData["Message"] = "Your application description page.";
+            this.ViewData["Message"] = "Your application description page.";
 
-            return View();
+            return this.View();
         }
 
         public IActionResult Contact() {
-            ViewData["Message"] = "Your contact page.";
+            this.ViewData["Message"] = "Your contact page.";
 
-            return View();
+            return this.View();
         }
 
         public IActionResult Error() {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return this.View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }
