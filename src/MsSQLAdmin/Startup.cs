@@ -7,8 +7,7 @@ using MsSQLAdmin.Services;
 using Microsoft.AspNetCore.Http;
 using Swashbuckle.AspNetCore.Swagger;
 
-namespace MsSQLAdmin
-{
+namespace MsSQLAdmin {
     public class Startup {
         public Startup(IConfiguration configuration) {
             Configuration = configuration;
@@ -20,8 +19,7 @@ namespace MsSQLAdmin
         public void ConfigureServices(IServiceCollection services) {
             services.AddMvc();
 
-            services.AddSwaggerGen(c =>
-            {
+            services.AddSwaggerGen(c => {
                 c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
             });
 
@@ -44,7 +42,7 @@ namespace MsSQLAdmin
             });
 
             services.AddScoped<DatabaseService>();
-            services.AddScoped<ConnectionService>();            
+            services.AddScoped<ConnectionService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -70,11 +68,9 @@ namespace MsSQLAdmin
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
 
-            if (env.IsDevelopment())
-            {
+            if (env.IsDevelopment()) {
                 app.UseSwagger();
-                app.UseSwaggerUI(c =>
-                {
+                app.UseSwaggerUI(c => {
                     c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
                 });
             }

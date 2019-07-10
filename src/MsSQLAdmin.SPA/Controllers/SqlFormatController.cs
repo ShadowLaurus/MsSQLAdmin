@@ -9,7 +9,7 @@ namespace MsSQLAdmin.Controllers {
         [HttpPost]
         [Route("FormatTSql")]
         public string FormatTSql([FromBody] FormatTSqlModel model) {
-            return FormatTSqlWithOptions(new FormatTSqlModel() { InputString = model.InputString });
+            return this.FormatTSqlWithOptions(new FormatTSqlModel() { InputString = model.InputString });
         }
 
         [HttpPost]
@@ -50,7 +50,7 @@ namespace MsSQLAdmin.Controllers {
             if (model.UseParseErrorPlaceholder)
                 formatter.ErrorOutputPrefix = "{PARSEERRORPLACEHOLDER}";
 
-            return FormatTSqlWithFormatter(model.InputString, formatter);
+            return this.FormatTSqlWithFormatter(model.InputString, formatter);
         }
 
         private string FormatTSqlWithFormatter(string inputString, PoorMansTSqlFormatterRedux.Interfaces.ISqlTreeFormatter formatter) {

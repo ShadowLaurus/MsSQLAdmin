@@ -2,8 +2,30 @@
 // `ng build ---prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
-export const environment = {
-  production: false
+export interface Environnement {
+  production: boolean;
+  name: string;
+  version: string;
+  settings: EnvSetting;
+}
+export interface EnvSetting {
+  backend: string;
+}
+
+export function envNormalizeUrl(url: string): string {
+  if (url && !url.endsWith('/')) {
+    return url + '/';
+  }
+  return url;
+}
+
+export const environment: Environnement = {
+  production: false,
+  name: 'dev',
+  version: 'DEV',
+  settings: {
+    backend: 'https://localhost:5001/',
+  },
 };
 
 /*
