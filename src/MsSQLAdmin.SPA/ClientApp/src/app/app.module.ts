@@ -17,17 +17,21 @@ import { SharedModule } from './shared/shared.module';
 import { registerLocaleData } from '@angular/common';
 import localeFrFr from '@angular/common/locales/fr';
 import localeFrFrExtra from '@angular/common/locales/extra/fr';
+import { CounterComponent } from './counter/counter.component';
+import { FetchDataComponent } from './fetch-data/fetch-data.component';
 
 registerLocaleData(localeFrFr, localeFrFrExtra);
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent, NavMenuComponent, PageNotFoundComponent],
-  imports: [
-    BrowserModule,
-    HttpClientModule,
-    AppRoutingModule,
-    SharedModule,
+  declarations: [
+    AppComponent,
+    HomeComponent,
+    CounterComponent,
+    FetchDataComponent,
+    NavMenuComponent,
+    PageNotFoundComponent,
   ],
+  imports: [BrowserModule, HttpClientModule, AppRoutingModule, SharedModule],
   providers: [
     { provide: LOCALE_ID, useValue: 'fr' },
     {

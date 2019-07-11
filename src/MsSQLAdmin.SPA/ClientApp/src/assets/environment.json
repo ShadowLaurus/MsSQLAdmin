@@ -1,0 +1,7 @@
+{
+  "name": "dev",
+  "production": false,
+  "settings": {
+    "backend": "https://localhost:5001"
+  }
+}

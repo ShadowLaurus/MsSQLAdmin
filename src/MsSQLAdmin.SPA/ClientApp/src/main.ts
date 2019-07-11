@@ -2,19 +2,24 @@ import { enableProdMode } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
 import { AppModule } from './app/app.module';
-import { environment } from './environments/environment';
+import { environment, envNormalizeUrl } from './environments/environment';
+import { environmentLoader as environmentLoaderPromise } from './environments/environmentLoader';
 
 export function getBaseUrl() {
   return document.getElementsByTagName('base')[0].href;
 }
 
-const providers = [
-  { provide: 'BASE_URL', useFactory: getBaseUrl, deps: [] }
-];
+const providers = [{ provide: 'BASE_URL', useFactory: getBaseUrl, deps: [] }];
 
-if (environment.production) {
-  enableProdMode();
-}
+environmentLoaderPromise.then(env => {
+  if (environment.production) {
+    enableProdMode();
+  }
 
-platformBrowserDynamic(providers).bootstrapModule(AppModule)
-  .catch(err => console.log(err));
+  environment.settings = env.settings;
+  environment.settings.backend = envNormalizeUrl(environment.settings.backend);
+
+  platformBrowserDynamic(providers)
+    .bootstrapModule(AppModule)
+    .catch(err => console.log(err));
+});
