@@ -1,10 +1,14 @@
 # MsSQLAdmin.SPA
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.0.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.0.0.
 
 ## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Run `npm run start` for a dev server. Navigate to <http://localhost:4200/>. The app will automatically reload if you change any of the source files.
+
+Run `npm run api` to start fake API server on <http://localhost:3000>
+
+Edit the file `src/assets/environment.json` to defined the URL API used by the application (Fake or true Asp.Net Core API)
 
 ## Code scaffolding
 
