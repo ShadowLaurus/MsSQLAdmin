@@ -1,0 +1,531 @@
+{
+	"swagger": "2.0",
+	"info": {
+		"version": "v1",
+		"title": "My API"
+	},
+	"paths": {
+		"/api/database/default": {
+			"get": {
+				"tags": [
+					"Database"
+				],
+				"operationId": "GetDefaultConnection",
+				"consumes": [],
+				"produces": [
+					"application/json"
+				],
+				"parameters": [],
+				"responses": {
+					"200": {
+						"description": "Success",
+						"schema": {
+							"$ref": "#/definitions/DatabaseConnectionModel"
+						}
+					}
+				}
+			}
+		},
+		"/api/database/valid": {
+			"post": {
+				"tags": [
+					"Database"
+				],
+				"operationId": "ValidConnection",
+				"consumes": [
+					"application/json-patch+json",
+					"application/json",
+					"text/json",
+					"application/*+json"
+				],
+				"produces": [
+					"application/json"
+				],
+				"parameters": [
+					{
+						"name": "model",
+						"in": "body",
+						"required": false,
+						"schema": {
+							"$ref": "#/definitions/DatabaseConnectionModel"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Success",
+						"schema": {
+							"type": "boolean"
+						}
+					}
+				}
+			}
+		},
+		"/api/database/databases": {
+			"post": {
+				"tags": [
+					"Database"
+				],
+				"operationId": "Index",
+				"consumes": [
+					"application/json-patch+json",
+					"application/json",
+					"text/json",
+					"application/*+json"
+				],
+				"produces": [
+					"application/json"
+				],
+				"parameters": [
+					{
+						"name": "model",
+						"in": "body",
+						"required": false,
+						"schema": {
+							"$ref": "#/definitions/DatabaseConnectionModel"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Success",
+						"schema": {
+							"uniqueItems": false,
+							"type": "array",
+							"items": {
+								"$ref": "#/definitions/DatabaseModel"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/database/tables": {
+			"post": {
+				"tags": [
+					"Database"
+				],
+				"operationId": "Tables",
+				"consumes": [
+					"application/json-patch+json",
+					"application/json",
+					"text/json",
+					"application/*+json"
+				],
+				"produces": [
+					"application/json"
+				],
+				"parameters": [
+					{
+						"name": "databaseConnectionModel",
+						"in": "body",
+						"required": false,
+						"schema": {
+							"$ref": "#/definitions/DatabaseConnectionModel"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Success",
+						"schema": {
+							"uniqueItems": false,
+							"type": "array",
+							"items": {
+								"$ref": "#/definitions/TableListModel"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/database/tables/{table}": {
+			"post": {
+				"tags": [
+					"Database"
+				],
+				"operationId": "Table",
+				"consumes": [
+					"application/json-patch+json",
+					"application/json",
+					"text/json",
+					"application/*+json"
+				],
+				"produces": [
+					"application/json"
+				],
+				"parameters": [
+					{
+						"name": "databaseConnectionModel",
+						"in": "body",
+						"required": false,
+						"schema": {
+							"$ref": "#/definitions/DatabaseConnectionModel"
+						}
+					},
+					{
+						"name": "table",
+						"in": "path",
+						"required": true,
+						"type": "string"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Success",
+						"schema": {
+							"uniqueItems": false,
+							"type": "array",
+							"items": {
+								"$ref": "#/definitions/TableColumnModel"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/database/{serveur}/sql": {
+			"post": {
+				"tags": [
+					"Database"
+				],
+				"operationId": "Data",
+				"consumes": [
+					"application/json-patch+json",
+					"application/json",
+					"text/json",
+					"application/*+json"
+				],
+				"produces": [
+					"application/json"
+				],
+				"parameters": [
+					{
+						"name": "databaseConnectionModel",
+						"in": "body",
+						"required": false,
+						"schema": {
+							"$ref": "#/definitions/DatabaseConnectionModel"
+						}
+					},
+					{
+						"name": "sql",
+						"in": "formData",
+						"required": false,
+						"type": "string"
+					},
+					{
+						"name": "serveur",
+						"in": "path",
+						"required": true,
+						"type": "string"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Success",
+						"schema": {
+							"$ref": "#/definitions/TableViewModel"
+						}
+					}
+				}
+			}
+		},
+		"/api/info": {
+			"get": {
+				"tags": [
+					"Info"
+				],
+				"operationId": "GetSettings",
+				"consumes": [],
+				"produces": [
+					"application/json"
+				],
+				"parameters": [],
+				"responses": {
+					"200": {
+						"description": "Success",
+						"schema": {
+							"$ref": "#/definitions/AppSettings"
+						}
+					}
+				}
+			}
+		},
+		"/api/sqlformat/formattsql": {
+			"post": {
+				"tags": [
+					"SqlFormat"
+				],
+				"operationId": "FormatTSql",
+				"consumes": [
+					"application/json-patch+json",
+					"application/json",
+					"text/json",
+					"application/*+json"
+				],
+				"produces": [
+					"application/json"
+				],
+				"parameters": [
+					{
+						"name": "model",
+						"in": "body",
+						"required": false,
+						"schema": {
+							"$ref": "#/definitions/FormatTSqlModel"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Success",
+						"schema": {
+							"type": "string"
+						}
+					}
+				}
+			}
+		},
+		"/api/sqlformat/formattsqlwithoptions": {
+			"post": {
+				"tags": [
+					"SqlFormat"
+				],
+				"operationId": "FormatTSqlWithOptions",
+				"consumes": [
+					"application/json-patch+json",
+					"application/json",
+					"text/json",
+					"application/*+json"
+				],
+				"produces": [
+					"application/json"
+				],
+				"parameters": [
+					{
+						"name": "model",
+						"in": "body",
+						"required": false,
+						"schema": {
+							"$ref": "#/definitions/FormatTSqlModel"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Success",
+						"schema": {
+							"type": "string"
+						}
+					}
+				}
+			}
+		}
+	},
+	"definitions": {
+		"DatabaseConnectionModel": {
+			"required": [
+				"server"
+			],
+			"type": "object",
+			"properties": {
+				"server": {
+					"type": "string"
+				},
+				"database": {
+					"type": "string"
+				},
+				"username": {
+					"type": "string"
+				},
+				"password": {
+					"type": "string"
+				},
+				"isWindows": {
+					"type": "boolean"
+				}
+			}
+		},
+		"DatabaseModel": {
+			"type": "object",
+			"properties": {
+				"name": {
+					"type": "string"
+				},
+				"description": {
+					"type": "string"
+				},
+				"size": {
+					"format": "int32",
+					"type": "integer"
+				}
+			}
+		},
+		"TableListModel": {
+			"type": "object",
+			"properties": {
+				"schema": {
+					"type": "string"
+				},
+				"name": {
+					"type": "string"
+				}
+			}
+		},
+		"TableColumnModel": {
+			"type": "object",
+			"properties": {
+				"name": {
+					"type": "string"
+				},
+				"type": {
+					"type": "string"
+				},
+				"maxLength": {
+					"format": "int32",
+					"type": "integer"
+				},
+				"precision": {
+					"format": "int32",
+					"type": "integer"
+				},
+				"scale": {
+					"format": "int32",
+					"type": "integer"
+				},
+				"isNullable": {
+					"type": "boolean"
+				},
+				"isPrimaryKey": {
+					"type": "boolean"
+				}
+			}
+		},
+		"TableViewModel": {
+			"type": "object",
+			"properties": {
+				"tableColumns": {
+					"uniqueItems": false,
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/TableColumnModel"
+					}
+				},
+				"tableData": {
+					"uniqueItems": false,
+					"type": "array",
+					"items": {
+						"type": "object",
+						"additionalProperties": {
+							"type": "object"
+						}
+					}
+				},
+				"ddlResult": {
+					"format": "int64",
+					"type": "integer"
+				},
+				"errorMessage": {
+					"type": "string"
+				}
+			}
+		},
+		"AppSettings": {
+			"type": "object",
+			"properties": {
+				"backend": {
+					"type": "string"
+				},
+				"version": {
+					"type": "string",
+					"readOnly": true
+				}
+			}
+		},
+		"FormatTSqlModel": {
+			"type": "object",
+			"properties": {
+				"inputString": {
+					"type": "string"
+				},
+				"reFormat": {
+					"type": "boolean"
+				},
+				"indent": {
+					"type": "string"
+				},
+				"spacesPerTab": {
+					"format": "int32",
+					"type": "integer"
+				},
+				"maxLineWidth": {
+					"format": "int32",
+					"type": "integer"
+				},
+				"statementBreaks": {
+					"format": "int32",
+					"type": "integer"
+				},
+				"clauseBreaks": {
+					"format": "int32",
+					"type": "integer"
+				},
+				"expandCommaLists": {
+					"type": "boolean"
+				},
+				"trailingCommas": {
+					"type": "boolean"
+				},
+				"spaceAfterExpandedComma": {
+					"type": "boolean"
+				},
+				"expandBooleanExpressions": {
+					"type": "boolean"
+				},
+				"expandCaseStatements": {
+					"type": "boolean"
+				},
+				"expandBetweenConditions": {
+					"type": "boolean"
+				},
+				"breakJoinOnSections": {
+					"type": "boolean"
+				},
+				"uppercaseKeywords": {
+					"type": "boolean"
+				},
+				"coloring": {
+					"type": "boolean"
+				},
+				"keywordStandardization": {
+					"type": "boolean"
+				},
+				"useParseErrorPlaceholder": {
+					"type": "boolean"
+				},
+				"obfuscate": {
+					"type": "boolean"
+				},
+				"randomizeColor": {
+					"type": "boolean"
+				},
+				"randomizeLineLengths": {
+					"type": "boolean"
+				},
+				"randomizeKeywordCase": {
+					"type": "boolean"
+				},
+				"preserveComments": {
+					"type": "boolean"
+				},
+				"enableKeywordSubstitution": {
+					"type": "boolean"
+				},
+				"expandInLists": {
+					"type": "boolean"
+				}
+			}
+		}
+	}
+}

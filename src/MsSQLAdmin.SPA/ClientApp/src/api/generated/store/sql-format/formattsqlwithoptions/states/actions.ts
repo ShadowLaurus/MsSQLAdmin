@@ -1,0 +1,33 @@
+/* tslint:disable:max-line-length max-classes-per-file */
+/**
+ * v1
+ * My API
+ * undefined
+ */
+
+import {HttpErrorResponse} from '@angular/common/http';
+import {Action} from '@ngrx/store';
+import {FormattsqlwithoptionsParams} from '../../../../controllers/SqlFormat';
+
+export enum Actions {
+  START = '[SqlFormat formattsqlwithoptions] Start',
+  SUCCESS = '[SqlFormat formattsqlwithoptions] Success',
+  ERROR = '[SqlFormat formattsqlwithoptions] Error',
+}
+
+export class Start implements Action {
+  readonly type = Actions.START;
+  constructor(public payload: FormattsqlwithoptionsParams) {}
+}
+
+export class Success implements Action {
+  readonly type = Actions.SUCCESS;
+  constructor(public payload: string) {}
+}
+
+export class Error implements Action {
+  readonly type = Actions.ERROR;
+  constructor(public payload: HttpErrorResponse) {}
+}
+
+export type FormattsqlwithoptionsAction = Start | Success | Error;

@@ -1,0 +1,31 @@
+/* tslint:disable:max-line-length */
+/**
+ * v1
+ * My API
+ * undefined
+ */
+
+import {NgModule} from '@angular/core';
+import {EffectsModule as NgrxEffectsModule} from '@ngrx/effects';
+import {StoreModule as NgrxStoreModule} from '@ngrx/store';
+
+import {DatabaseService} from '../../../controllers/Database';
+import {FormsSharedModule} from '../../forms-shared.module';
+import {SqlFormService} from './sql.service';
+
+import {SqlEffects} from './states/effects';
+import {SqlReducer} from './states/reducers';
+import {selectorName} from './states/reducers';
+
+@NgModule({
+  imports: [
+    FormsSharedModule,
+    NgrxStoreModule.forFeature(selectorName, SqlReducer),
+    NgrxEffectsModule.forFeature([SqlEffects]),
+  ],
+  providers: [
+    DatabaseService,
+    SqlFormService,
+  ],
+})
+export class SqlModule {}
