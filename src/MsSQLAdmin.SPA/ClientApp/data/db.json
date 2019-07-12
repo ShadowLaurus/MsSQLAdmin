@@ -2,5 +2,19 @@
   "info": {
     "backend": "http://localhost:3000",
     "version": "1.0.0"
+  },
+  "database-default": {
+    "server": "(localdb)\\MSSQLLocalDB",
+    "database": "master",
+    "username": null,
+    "password": null,
+    "isWindows": true
+  },
+  "database-valid": true,
+  "database-databases": {
+  },
+  "database-tables": {
+  },
+  "database-table": {
   }
 }

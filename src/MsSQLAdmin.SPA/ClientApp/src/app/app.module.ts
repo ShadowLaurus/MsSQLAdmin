@@ -1,3 +1,5 @@
+import { TestModule } from './test/test.module';
+import { DatabaseModule } from './database/database.module';
 import { environment } from './../environments/environment';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -5,7 +7,6 @@ import { NgModule, APP_INITIALIZER, Injector, LOCALE_ID } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HomeComponent } from './home/home.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { SettingsResolver } from './resolvers/settings-resolver';
 import { initializeConfiguration } from './app-initializers';
@@ -17,21 +18,19 @@ import { SharedModule } from './shared/shared.module';
 import { registerLocaleData } from '@angular/common';
 import localeFrFr from '@angular/common/locales/fr';
 import localeFrFrExtra from '@angular/common/locales/extra/fr';
-import { CounterComponent } from './counter/counter.component';
-import { FetchDataComponent } from './fetch-data/fetch-data.component';
 
 registerLocaleData(localeFrFr, localeFrFrExtra);
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    HomeComponent,
-    CounterComponent,
-    FetchDataComponent,
-    NavMenuComponent,
-    PageNotFoundComponent,
+  declarations: [AppComponent, NavMenuComponent, PageNotFoundComponent],
+  imports: [
+    BrowserModule,
+    HttpClientModule,
+    DatabaseModule,
+    TestModule,
+    AppRoutingModule,
+    SharedModule,
   ],
-  imports: [BrowserModule, HttpClientModule, AppRoutingModule, SharedModule],
   providers: [
     { provide: LOCALE_ID, useValue: 'fr' },
     {

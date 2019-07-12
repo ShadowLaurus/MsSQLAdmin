@@ -1,3 +1,8 @@
 {
-  "/api/*": "/$1"
+  "/api/*": "/$1",
+  "/database/default" : "/database-default",
+  "/database/valid" : "/database-valid",
+  "/database/databases" : "/database-databases",
+  "/database/tables" : "/database-tables",
+  "/database/tables/*" : "/database-table"
 }
