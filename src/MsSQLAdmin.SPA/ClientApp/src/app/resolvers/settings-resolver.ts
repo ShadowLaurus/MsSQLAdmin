@@ -5,7 +5,8 @@ import {
   RouterStateSnapshot,
 } from '@angular/router';
 import { Observable } from 'rxjs';
-import { EnvSetting, environment } from 'src/environments/environment';
+import { environment } from 'src/environments/environment';
+import { EnvSetting } from 'src/environments/environmentDef';
 
 @Injectable()
 export class SettingsResolver implements Resolve<EnvSetting> {

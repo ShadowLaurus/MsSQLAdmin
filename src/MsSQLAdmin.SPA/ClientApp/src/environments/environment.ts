@@ -1,23 +1,7 @@
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build ---prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
-
-export interface Environnement {
-  production: boolean;
-  name: string;
-  version: string;
-  settings: EnvSetting;
-}
-export interface EnvSetting {
-  backend: string;
-}
-
-export function envNormalizeUrl(url: string): string {
-  if (url && !url.endsWith('/')) {
-    return url + '/';
-  }
-  return url;
-}
+import { Environnement } from './environmentDef';
 
 export const environment: Environnement = {
   production: false,

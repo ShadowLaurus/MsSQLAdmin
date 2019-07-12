@@ -2,7 +2,8 @@ import { ActionTypes } from './action-types.enum';
 import { CommunicatorService } from './communicator.service';
 import { AsyncSubject } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { environment, envNormalizeUrl } from 'src/environments/environment';
+import { environment } from 'src/environments/environment';
+import { envNormalizeUrl } from 'src/environments/environmentDef';
 
 @Injectable({
   providedIn: 'root',
