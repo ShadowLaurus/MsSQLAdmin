@@ -6,7 +6,7 @@
  */
 
 export interface DatabaseConnectionModel {
-  server?: string;
+  server: string;
   database?: string;
   username?: string;
   password?: string;
