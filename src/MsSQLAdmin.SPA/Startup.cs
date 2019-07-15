@@ -10,7 +10,7 @@ using Swashbuckle.AspNetCore.Swagger;
 
 namespace MsSQLAdmin.SPA {
     public class Startup {
-        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+        readonly string MyAllowDevOrigins = "_myAllowDevOrigins";
 
         public Startup(IConfiguration configuration) {
             Configuration = configuration;
@@ -21,9 +21,11 @@ namespace MsSQLAdmin.SPA {
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services) {
             services.AddCors(options => {
-                options.AddPolicy(this.MyAllowSpecificOrigins,
+                options.AddPolicy(this.MyAllowDevOrigins,
                 builder => {
                     builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+                    builder.SetIsOriginAllowed(x => true);
+                    builder.SetIsOriginAllowedToAllowWildcardSubdomains();
                 });
             });
 
@@ -51,7 +53,7 @@ namespace MsSQLAdmin.SPA {
         public void Configure(IApplicationBuilder app, IHostingEnvironment env) {
             if (env.IsDevelopment()) {
                 app.UseDeveloperExceptionPage();
-                app.UseCors();
+                app.UseCors(this.MyAllowDevOrigins);
 
                 app.UseSwagger();
                 app.UseSwaggerUI(c => {
@@ -76,8 +78,8 @@ namespace MsSQLAdmin.SPA {
                 spa.Options.SourcePath = "ClientApp";
 
                 if (env.IsDevelopment()) {
-                    spa.UseAngularCliServer(npmScript: "start");
-                    //spa.UseProxyToSpaDevelopmentServer("http://localhost:4200");
+                    //spa.UseAngularCliServer(npmScript: "start");
+                    spa.UseProxyToSpaDevelopmentServer("http://localhost:4200");
                 }
             });
         }

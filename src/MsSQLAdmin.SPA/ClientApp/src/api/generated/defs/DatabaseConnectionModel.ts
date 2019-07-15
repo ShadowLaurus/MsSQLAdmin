@@ -2,11 +2,11 @@
 /**
  * v1
  * My API
- * undefined
+ * undefined/swagger
  */
 
 export interface DatabaseConnectionModel {
-  server: string;
+  server?: string;
   database?: string;
   username?: string;
   password?: string;

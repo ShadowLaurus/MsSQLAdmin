@@ -2,7 +2,7 @@
 /**
  * v1
  * My API
- * undefined
+ * undefined/swagger
  */
 
 export interface DatabaseModel {

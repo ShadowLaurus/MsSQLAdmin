@@ -1,0 +1,22 @@
+<header>
+  <nav class="navbar navbar-expand-md navbar-light bg-light">
+    <div class="container-fluid">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item" [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]="{ exact: true }">
+          <a class="nav-link text-dark" [routerLink]='["./"]'>Connection</a>
+        </li>
+        <li class="nav-item" [routerLinkActive]='["link-active"]'>
+          <a class="nav-link text-dark" [routerLink]='["./database"]'>Databases</a>
+        </li>
+        <li class="nav-item" [routerLinkActive]='["link-active"]'>
+          <a class="nav-link text-dark" [routerLink]='["./tables"]'>Tables</a>
+        </li>
+        <li class="nav-item" [routerLinkActive]='["link-active"]'>
+          <a class="nav-link text-dark" [routerLink]='["./sql"]'>SQL</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</header>
+
+<router-outlet></router-outlet>

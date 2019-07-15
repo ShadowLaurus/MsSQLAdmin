@@ -2,7 +2,7 @@
 /**
  * v1
  * My API
- * undefined
+ * undefined/swagger
  */
 
 import {NgModule} from '@angular/core';

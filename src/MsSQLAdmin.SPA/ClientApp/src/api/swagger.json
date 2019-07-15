@@ -4,6 +4,7 @@
 		"version": "v1",
 		"title": "My API"
 	},
+  "basePath": "/swagger",
 	"paths": {
 		"/api/database/default": {
 			"get": {

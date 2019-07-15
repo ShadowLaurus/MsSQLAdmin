@@ -13,7 +13,6 @@ export class SettingsService {
 
   getSettings(): Observable<any> {
     return this.http
-      .get(environment.settings.backend + this.API)
-      .pipe(delay(1000));
+      .get(environment.settings.backend + this.API);
   }
 }

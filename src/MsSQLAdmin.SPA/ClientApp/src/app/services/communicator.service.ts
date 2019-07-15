@@ -9,9 +9,7 @@ import { map } from 'rxjs/internal/operators';
   providedIn: 'root',
 })
 export class CommunicatorService {
-  constructor(
-    private settingsService: SettingsService
-  ) {}
+  constructor(private settingsService: SettingsService) {}
 
   /**
    * Dispatch normalized Action from component to service

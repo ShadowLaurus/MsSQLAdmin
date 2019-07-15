@@ -2,7 +2,7 @@
 /**
  * v1
  * My API
- * undefined
+ * undefined/swagger
  */
 
 import {HttpClient} from '@angular/common/http';
@@ -30,7 +30,7 @@ export class SqlFormatService {
     Object.entries(bodyParams || {}).forEach(([key, value]: [string, any]) => {
       if (value !== undefined) bodyParamsWithoutUndefined[key] = value;
     });
-    return this.http.post<string>(`/api/sqlformat/formattsql`, bodyParamsWithoutUndefined);
+    return this.http.post<string>(`/swagger/api/sqlformat/formattsql`, bodyParamsWithoutUndefined);
   }
 
   /** http://undefined/swagger/swagger-ui.html#!/SqlFormat/FormatTSqlWithOptions */
@@ -40,6 +40,6 @@ export class SqlFormatService {
     Object.entries(bodyParams || {}).forEach(([key, value]: [string, any]) => {
       if (value !== undefined) bodyParamsWithoutUndefined[key] = value;
     });
-    return this.http.post<string>(`/api/sqlformat/formattsqlwithoptions`, bodyParamsWithoutUndefined);
+    return this.http.post<string>(`/swagger/api/sqlformat/formattsqlwithoptions`, bodyParamsWithoutUndefined);
   }
 }

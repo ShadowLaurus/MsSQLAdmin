@@ -2,6 +2,6 @@
   "name": "dev",
   "production": false,
   "settings": {
-    "backend": "/"
+    "backend": "https://localhost:5001"
   }
 }

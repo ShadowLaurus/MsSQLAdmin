@@ -2,7 +2,7 @@
 /**
  * v1
  * My API
- * undefined
+ * undefined/swagger
  */
 
 import {HttpClient} from '@angular/common/http';
@@ -17,6 +17,6 @@ export class InfoService {
 
   /** http://undefined/swagger/swagger-ui.html#!/Info/GetSettings */
   info(): Observable<__model.AppSettings> {
-    return this.http.get<__model.AppSettings>(`/api/info`);
+    return this.http.get<__model.AppSettings>(`/swagger/api/info`);
   }
 }
